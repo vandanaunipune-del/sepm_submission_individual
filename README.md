@@ -12,7 +12,7 @@ SEPM project submission. It contains an ERC-4626 yield vault contract (`YieldVau
 | --- | --- |
 | [contracts/YieldVault.sol](contracts/YieldVault.sol) | ERC-4626 tokenized vault (OpenZeppelin 5.1.0) with an owner-only `harvest`, a performance fee (capped at 20%), a fee recipient and an optional deposit cap. Not audited. |
 | [contracts/HelloWorld.sol](contracts/HelloWorld.sol) | Minimal contract with a public `greet` string. |
-| [contracts/SimpleVault.sol](contracts/SimpleVault.sol) | ETH deposit/withdraw example demonstrating NatSpec `@title`, `@notice`, `@dev`, `@param`, and `@return` documentation. |
+| [contracts/SimpleVault.sol](contracts/SimpleVault.sol) | ETH deposit/withdraw example with inclusive 1–5 ETH deposit limits, demonstrating NatSpec `@title`, `@notice`, `@dev`, `@param`, and `@return` documentation. |
 
 The standard-JSON compiler input requests NatSpec `userdoc` and `devdoc` output. After `npm run compile`, view the generated documentation with:
 
@@ -145,7 +145,7 @@ The secret names must match the ones used in [deploy.yml](.github/workflows/depl
 
 ### Workflows
 
-- **Contract CI and Deployment** ([pipeline.yml](.github/workflows/pipeline.yml)) – runs on pushes and pull requests to `main`, in order: compile, Hardhat unit tests, then Slither analysis. A manual run (**Actions → Contract CI and Deployment → Run workflow**) also reaches the deployment job after all checks pass.
+- **Contract CI and Deployment** ([pipeline.yml](.github/workflows/pipeline.yml)) – runs on pushes and pull requests to `main`, in order: compile, Hardhat unit tests, then Slither analysis. Slither targets `contracts/YieldVault.sol` directly with solc, avoiding its incompatible Hardhat 3 artifact parser. A manual run (**Actions → Contract CI and Deployment → Run workflow**) also reaches the deployment job after all checks pass.
 - **Deployment approval** – the deployment job uses the `Testnet` environment. In **Settings → Environments → Testnet**, configure required reviewers to require manual approval before `node scripts/deploy.js` can access the Sepolia secrets and deploy. Without required reviewers configured, GitHub will not pause for approval.
 - **Sample unit test** ([HelloWorld.ts](test/HelloWorld.ts)) – deploys `HelloWorld` to the local Hardhat network and verifies its initial greeting.
 

@@ -27,7 +27,9 @@ jobs:
       - name: Run Slither
         uses: crytic/slither-action@v0.4.0
         with:
-          target: "."
+          # Compile the Solidity entry point directly instead of using the
+          # Hardhat adapter, which cannot parse this project's Hardhat 3 output.
+          target: contracts/YieldVault.sol
           solc-version: 0.8.24
           slither-args: --solc-remaps '@openzeppelin/=node_modules/@openzeppelin/'
           fail-on: medium
