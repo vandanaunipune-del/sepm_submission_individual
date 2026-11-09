@@ -29,8 +29,8 @@ describe("SimpleVault deposit limits", function () {
     const minimum = ethers.parseEther("1");
     const maximum = ethers.parseEther("5");
 
-    await expect(vault.deposit(minimum, { value: minimum })).to.not.be.reverted;
-    await expect(vault.deposit(maximum, { value: maximum })).to.not.be.reverted;
+    await (await vault.deposit(minimum, { value: minimum })).wait();
+    await (await vault.deposit(maximum, { value: maximum })).wait();
 
     expect(await vault.balances(depositor.address)).to.equal(minimum + maximum);
   });
